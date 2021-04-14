@@ -1,0 +1,36 @@
+{
+  "name": "backpoderosanoparto",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "date-fns": "^2.20.3",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.3",
+    "nodemailer": "^6.5.0",
+    "nodemailer-express-handlebars": "^4.0.0",
+    "path": "^0.12.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fenix26/-backendpoderosanoparto.git"
+  },
+  "keywords": [
+    "Poderosa",
+    "Gestante",
+    "parto"
+  ],
+  "author": "Luiz Junior Lopes",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "description": ""
+}
