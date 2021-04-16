@@ -1,5 +1,5 @@
 const TaskModel = require('../model/TaskModel')
-const { startOfWeek, endOfWeek, startOfMonth, endOfMonth } = require('date-fns')
+const { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth } = require('date-fns')
 
 const current = new Date()
 
@@ -68,6 +68,25 @@ class TaskController {
 
     }
 
+
+    async exercicioDoDia(req, res) {
+
+        await TaskModel
+            .findOne({
+                'cpf': { '$in': req.params.cpf },
+                'titulo': { '$in': req.params.titulo },
+                'finalizada': { '$gte': startOfDay(current), '$lt': endOfDay(current) }
+            })
+            .sort('finalizada')
+            .then(response => {
+
+                return res.status(200).json(response)
+            })
+            .catch(error => {
+                return res.status(500).json(error)
+            })
+
+    }
 
 
 }

@@ -44,7 +44,7 @@ class UserController {
                 return res.status(200).json(response)
             })
             .catch(error => {
-                return res.status(500).json(error)
+                return res.status(500).json("error")
             })
 
     }
@@ -62,7 +62,7 @@ class UserController {
                         user,
                         token: generateToken({ id: user.id }),
                         cpf: response.cpf,
-                        idUsuario: user.id,
+                        idUsuario: response._id,
                         nomeUsuario: response.nome
 
                     });
