@@ -54,7 +54,10 @@ class UserController {
     async login(req, res) {
         const user = new UserModel()
 
-        await UserModel.findOne({ 'cpf': { '$eq': req.params.cpf } })
+        await UserModel.findOne({
+            'cpf': { '$eq': req.params.cpf },
+            'senha': { '$eq': req.params.senha }
+        })
             .then(response => {
                 if (response) {
 
