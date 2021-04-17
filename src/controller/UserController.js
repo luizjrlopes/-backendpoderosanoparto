@@ -74,7 +74,7 @@ class UserController {
                     return res.status(404).json({ error: 'usuario não encontrado' })
             })
             .catch(error => {
-                return res.status(500).json(error)
+                return res.status(500).json("error")
             })
 
     }
