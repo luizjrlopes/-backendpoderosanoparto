@@ -49,6 +49,18 @@ class UserController {
 
     }
 
+    async updateSenha(req, res) {//editar perfil
+
+        await UserModel.findByIdAndUpdate({ 'cpf': req.params.cpf }, req.body, { new: true })
+            .then(response => {
+                return res.status(200).json(response)
+            })
+            .catch(error => {
+                return res.status(500).json("error")
+            })
+
+    }
+
 
 
     async login(req, res) {
@@ -78,6 +90,47 @@ class UserController {
             })
 
     }
+
+
+
+    async esqueceuSenha(req, res) {
+        const user = new UserModel()
+
+        await UserModel.findOne({
+            'cpf': { '$eq': req.params.cpf },
+            'email': { '$eq': req.params.email },
+            'dataNasc': { '$eq': req.params.dataNasc }
+        })
+            .then(response => {
+                if (response) {
+
+                    return res.status(200).send(
+
+
+
+                        {
+                            valor: true,
+                            idUsuario: response._id
+                        }
+
+                    );
+                }
+                else
+                    return res.status(404).send(
+
+
+
+                        { valor: false }
+
+                    )
+            })
+            .catch(error => {
+                return res.status(500).json("error")
+            })
+
+    }
+
+
 
     async delete(req, res) {//tela perfil - excluir usuario e tarefas
 

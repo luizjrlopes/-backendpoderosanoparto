@@ -6,7 +6,9 @@ const UserValidation = require('../middlewares/UserValidation')
 
 router.post('/', UserValidation, UserController.create)
 router.put('/:id', UserController.update)
+router.put('/:id', UserController.updateSenha)
 router.post('/:cpf/:senha', UserController.login)
+router.post('/:cpf/:email/:dataNasc', UserController.esqueceuSenha)
 router.delete('/:id', UserController.delete)
 
 
