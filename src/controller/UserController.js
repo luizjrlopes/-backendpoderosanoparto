@@ -3,7 +3,7 @@ const express = require('express');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
+
 
 //const mailer = require('../../modules/mailer');
 const authJWT = require('../credentials/auth-jwt.json');
@@ -20,7 +20,22 @@ function generateToken(params = {}) {
 class UserController {
 
     async create(req, res) {//telacadastro
-        const user = new UserModel(req.body)
+        const { nome, cpf, senha, sexo, cep, email, raca, dataNasc, ultMest } = req.body
+
+        var createHash = function (senha) {
+            return bcrypt.hashSync(senha, bcrypt.genSaltSync(10), null);
+        }
+
+        const user = new UserModel()
+        user.nome = nome
+        user.cpf = cpf
+        user.senha = createHash(senha)
+        user.sexo = sexo
+        user.cep = cep
+        user.email = email
+        user.raca = raca
+        user.dataNasc = dataNasc
+        user.ultMest = ultMest
         await user
             .save()
             .then
@@ -50,15 +65,19 @@ class UserController {
     }
 
     async updateSenha(req, res) {//editar perfil
+        const user = req.body
+        var createHash = function (senha) {
+            return bcrypt.hashSync(senha, bcrypt.genSaltSync(10), null);
+        }
+        user.senha = createHash(user.senha)
 
-        await UserModel.findByIdAndUpdate({ 'cpf': req.params.cpf }, req.body, { new: true })
+        await UserModel.findByIdAndUpdate({ '_id': req.params.id }, user, { new: true })
             .then(response => {
                 return res.status(200).json(response)
             })
             .catch(error => {
                 return res.status(500).json("error")
             })
-
     }
 
 
@@ -67,10 +86,22 @@ class UserController {
         const user = new UserModel()
 
         await UserModel.findOne({
-            'cpf': { '$eq': req.params.cpf },
-            'senha': { '$eq': req.params.senha }
+            'cpf': { '$eq': req.params.cpf }
+
         })
             .then(response => {
+
+                var isValidPassword = function (response, senha) {
+
+                    return bcrypt.compareSync(senha, response.senha);
+                }
+
+                if (!isValidPassword(response, req.params.senha)) {
+                    console.log('senha incorreta');
+                    return res.status(404).json({ error: 'senha incorreta' }) // redirect back to login page
+                }
+
+
                 if (response) {
 
                     return res.status(200).send({
@@ -82,8 +113,11 @@ class UserController {
 
                     });
                 }
-                else
-                    return res.status(404).json({ error: 'usuario não encontrado' })
+                else { return res.status(404).json({ error: 'usuario não encontrado' }) }
+
+
+
+
             })
             .catch(error => {
                 return res.status(500).json("error")
@@ -94,7 +128,6 @@ class UserController {
 
 
     async esqueceuSenha(req, res) {
-        const user = new UserModel()
 
         await UserModel.findOne({
             'cpf': { '$eq': req.params.cpf },
@@ -132,7 +165,7 @@ class UserController {
 
 
 
-    async delete(req, res) {//tela perfil - excluir usuario e tarefas
+    async delete(req, res) {//tela perfil - excluir usuario e tarefas -pendente
 
         await UserModel.deleteOne({ '_id': req.params.id })
             .then(response => {
