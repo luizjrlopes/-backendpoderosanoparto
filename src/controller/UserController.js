@@ -83,7 +83,11 @@ class UserController {
 
 
     async login(req, res) {
+
+        const cpf = req.params.cpf
         const user = new UserModel()
+        console.log(cpf)
+
 
         await UserModel.findOne({
             'cpf': { '$eq': req.params.cpf }
@@ -98,7 +102,7 @@ class UserController {
 
                 if (!isValidPassword(response, req.params.senha)) {
                     console.log('senha incorreta');
-                    return res.status(404).json({ error: 'senha incorreta' }) // redirect back to login page
+                    return res.status(404).send('senha incorreta') // redirect back to login page
                 }
 
 
@@ -120,8 +124,10 @@ class UserController {
 
             })
             .catch(error => {
-                return res.status(500).json("error")
+                return res.status(400).send("CPF não encontrado")
             })
+
+
 
     }
 
