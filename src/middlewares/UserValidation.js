@@ -45,10 +45,10 @@ const UserValidation = async (req, res, next) => {
     else if (!raca)
         return res.status(400).send('raca é obrigatório')
 
-    else if (dataNasc === 'T23:40:00.000+00:00')
+    else if (!dataNasc)
         return res.status(400).send('Data de Nascimento é obrigatório')
 
-    else if (ultMest === 'T23:40:00.000+00:00')
+    else if (!ultMest)
         return res.status(400).send('Data da Última Menstruação é obrigatório')
 
     else {

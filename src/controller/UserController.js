@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 
+
 //const mailer = require('../../modules/mailer');
 const authJWT = require('../credentials/auth-jwt.json');
 
@@ -165,6 +166,39 @@ class UserController {
             })
             .catch(error => {
                 return res.status(500).json("error")
+            })
+
+    }
+    async perfil(req, res) {
+
+        await UserModel
+            .findOne({
+                '_id': { '$eq': req.params.id }
+
+            })
+            .then(response => {
+                if (response) {
+                    return res.status(200).send(
+
+                        {
+                            nome: response.nome,
+                            cpf: response.cpf,
+                            sexo: response.sexo,
+                            cep: response.cep,
+                            email: response.email,
+                            raca: response.raca,
+                            dataNasc: response.dataNasc,
+                            ultMest: response.ultMest
+                        }
+
+
+
+                    )
+                }
+
+            })
+            .catch(error => {
+                return res.status(500).json(error)
             })
 
     }
