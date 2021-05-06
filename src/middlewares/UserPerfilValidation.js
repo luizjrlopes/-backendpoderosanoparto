@@ -26,6 +26,7 @@ const UserPerfilValidation = async (req, res, next) => {
 
     const { nome, cpf, sexo, cep, email, raca, dataNasc, ultMest } = req.body
 
+
     if (!nome)
         return res.status(400).send('nome é obrigatório')
 
@@ -51,33 +52,6 @@ const UserPerfilValidation = async (req, res, next) => {
         return res.status(400).send('Data da Última Menstruação é obrigatório')
 
     else {
-
-        let exists
-
-        if (req.params.id) {
-            exists = await UserModel.
-                findOne(
-                    {
-                        '_id': { '$ne': req.params.id },
-                        'cpf': { "$eq": cpf }
-                    })
-
-
-
-        } else {
-
-            exists = await UserModel.
-                findOne(
-                    {
-
-                        'cpf': { "$in": cpf }
-                    })
-        }
-        if (exists) {
-            return res.status(400).send('CPF já cadastrado')
-
-        }
-
 
 
         next()

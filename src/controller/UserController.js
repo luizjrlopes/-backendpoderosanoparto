@@ -5,15 +5,15 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 
+require('dotenv').config()
 
-//const mailer = require('../../modules/mailer');
-const authJWT = require('../credentials/auth-jwt.json');
+const authJWT = process.env.AUTH_JWT;
 
 
 const UserModel = require('../model/UserModel')
 
 function generateToken(params = {}) {
-    return jwt.sign(params, authJWT.secret, {
+    return jwt.sign(params, authJWT, {
         expiresIn: 86400,
     });
 }
@@ -156,13 +156,7 @@ class UserController {
                     );
                 }
                 else
-                    return res.status(404).send(
-
-
-
-                        { valor: false }
-
-                    )
+                    return res.status(404).send("Dados Incorretos")
             })
             .catch(error => {
                 return res.status(500).json("error")
