@@ -10,8 +10,9 @@ const UserRoutes = require('./routes/UserRoutes')
 
 server.use('/task', TaskRoutes)
 server.use('/user', UserRoutes)
+var port = (process.env.PORT || 3002)
 
-server.listen(3002, () => {
+server.listen(port, () => {
 
     console.log('Api Online')
 })
