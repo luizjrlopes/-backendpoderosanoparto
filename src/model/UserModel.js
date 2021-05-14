@@ -5,7 +5,7 @@ const datamenosfuso = new Date(date.valueOf() - date.getTimezoneOffset() * 60000
 const dataConvertida = datamenosfuso.toISOString().replace(/\ .\d{3}Z$/, '')
 const UserSchema = new Schema({
     nome: { type: String, required: true },
-    cpf: { type: Number, required: true },
+    cpf: { type: String, required: true },
     senha: { type: String, required: true },
     sexo: { type: String, required: true },
     cep: { type: String, required: true },
