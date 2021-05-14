@@ -13,6 +13,7 @@ const TaskSchema = new Schema({
     finalizada: { type: Date, default: dataConvertida },
     usuarioDaTarefa: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
 
+
 });
 
 module.exports = mongoose.model('Task', TaskSchema)
